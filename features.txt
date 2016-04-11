@@ -1,0 +1,19 @@
+// Copyright (C) 2016 adiseshm
+
+Features
+========
+1. APIs - argv_parse(), ARG_VAL_UPTR_*(), and struct argv_spec_s
+2. Specify range, list for args
+3. No optional arguments support
+4. Bubble up API includes
+
+Future
+======
+1. autoconf/automake based Makefile
+2. Range, List support
+3. Multiple occurence of an option
+4. Coding style
+5. doxygen style comments
+6. Support tonnes of option specs say like gcc
+7. I18N
+8. ? getopt_* features
