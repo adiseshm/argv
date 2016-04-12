@@ -81,7 +81,7 @@ struct argv_spec_s
 	union __argv_val defval;
 
 	/* union for values the arg can take */
-    union {
+	union {
 		/* RANGE */
 		union {
 			struct {
