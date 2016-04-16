@@ -18,8 +18,7 @@
    02111-1307 USA.
 */
 
-#ifndef __ADIZ__ARGV_SYNOPSIS_H__
-#define __ADIZ__ARGV_SYNOPSIS_H__
+#pragma once
 
 #include <stdint.h>
 
@@ -33,5 +32,3 @@ struct argv_synopsis_s
 
 #define ARG_ANY  0
 #define ARG_LAST INT32_MAX
-
-#endif /* argv synopsis.h */

@@ -19,8 +19,7 @@
    02111-1307 USA.
 */
 
-#ifndef __ARGV_VAL_H__
-#define __ARGV_VAL_H__
+#pragma once
 
 #include "api/argv.h"
 
@@ -28,5 +27,3 @@ extern const char * argv_val_strtypedata(int data_type);
 extern int argv_val_set_default(struct argv_spec_s *p_s, struct argv_error_s *p_e);
 extern int argv_val_process(struct argv_spec_s *p, char *optarg, struct argv_error_s *p_e);
 extern void argv_val_print(struct argv_spec_s *p_s, FILE *fp);
-
-#endif

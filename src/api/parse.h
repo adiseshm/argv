@@ -18,8 +18,7 @@
    02111-1307 USA.
 */
 
-#ifndef __ADIZ__ARGV_PARSE_H__
-#define __ADIZ__ARGV_PARSE_H__
+#pragma once
 
 #include <stdio.h>
 #include <stdint.h>
@@ -29,28 +28,6 @@
 #include "error.h"
 
 #define ARGV_MAX_LIST  32
-
-enum
-{
-	//  arg type - data type
-	ARGV_TYPE_INT16,
-	ARGV_TYPE_UINT16,
-
-	ARGV_TYPE_INT32,
-	ARGV_TYPE_UINT32,
-
-	ARGV_TYPE_INT64,
-	ARGV_TYPE_UINT64,
-
-	ARGV_TYPE_CHARP,
-
-	ARGV_TYPE_BOOL,
-
-	//  arg type - flags
-	ARGV_TYPE_FLAGS_ZERO = 0,
-	ARGV_TYPE_FLAGS_NUM_RANGE,
-	ARGV_TYPE_FLAGS_LIST,
-};
 
 struct argv_spec_s
 {
@@ -87,11 +64,11 @@ struct argv_spec_s
 			struct {
 				uint64_t start;
 				uint64_t end;
-			} unum;
+			} u;
 			struct {
 				int64_t start;
 				int64_t end;
-			} snum;
+			} i;
 		} range;
 
 		/* LIST */
@@ -136,5 +113,3 @@ extern int argv_usage(FILE *fp, char *progname,
 						struct argv_synopsis_s *p_synopsis,
 						struct argv_spec_s *p_s,
 						struct argv_error_s *p_e);
-
-#endif /* argv parse.h */

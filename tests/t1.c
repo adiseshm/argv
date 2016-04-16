@@ -32,14 +32,18 @@ struct t1_args_s
 	uint32_t offset;
 	int16_t qwerty;
 	uint64_t uint64;
+	int32_t int32r;
+	uint16_t uint16r;
 };
 
 enum
 {
-	ARG_FILE   = 10,
-	ARG_OFFSET = 20,
-	ARG_QWERTY = 30,
-	ARG_UINT64 = 40,
+	ARG_FILE    = 10,
+	ARG_OFFSET  = 20,
+	ARG_QWERTY  = 30,
+	ARG_UINT64  = 40,
+	ARG_INT32R  = 50,
+	ARG_UINT16R = 60,
 };
 
 struct argv_spec_s arg_spec[] =
@@ -97,6 +101,36 @@ struct argv_spec_s arg_spec[] =
  .uptr.ARGV_VAL_UPTR_UINT64(struct t1_args_s, uint64)
 },
 
+/* uint32-range */
+{.id = ARG_INT32R,
+ .name_long = "int32r",
+ .name_val = '2',
+ .help_arg = "int32r",
+ .help = "int32 value in 22-33 range",
+ .type.data  = ARGV_TYPE_INT32,
+ .type.flags = ARGV_TYPE_FLAGS_NUM_RANGE,
+ .spec.range.i.start = 22,
+ .spec.range.i.end = 33,
+ .type.multiples = 1,
+ .defval.int32 = 32,
+ .uptr.ARGV_VAL_UPTR_INT32(struct t1_args_s, int32r)
+},
+
+/* uint16-range */
+{.id = ARG_UINT16R,
+ .name_long = "int16r",
+ .name_val = '1',
+ .help_arg = "int16r",
+ .help = "int16 value in 22-33 range",
+ .type.data  = ARGV_TYPE_INT16,
+ .type.flags = ARGV_TYPE_FLAGS_NUM_RANGE,
+ .spec.range.i.start = 44,
+ .spec.range.i.end = 55,
+ .type.multiples = 1,
+ .defval.uint16 = 32,
+ .uptr.ARGV_VAL_UPTR_UINT16(struct t1_args_s, uint16r)
+},
+
 /* last zero entry */
 {
  .name_long = 0,
@@ -109,6 +143,7 @@ enum
 {
 	CMD_FILE,
 	CMD_QWERTY,
+	CMD_INT32R,
 };
 
 struct argv_synopsis_s synopsis[] = 
@@ -127,6 +162,14 @@ struct argv_synopsis_s synopsis[] =
 		.cmd    = CMD_QWERTY,
 		.ids_m  = (int []) { ARG_QWERTY, ARG_LAST },
 		.ids_o  = (int []) { ARG_UINT64, ARG_LAST },
+	},
+
+	/* t1 : synopsis */
+	{
+		.name   = "cmd-int32r",
+		.cmd    = CMD_INT32R,
+		.ids_m  = (int []) { ARG_INT32R, ARG_LAST },
+		.ids_o  = (int []) { ARG_UINT16R, ARG_LAST },
 	},
 
 	/* last zero entry */

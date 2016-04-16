@@ -18,11 +18,35 @@
    02111-1307 USA.
 */
 
-#ifndef __ADIZ__ARGV_VAL_H__
-#define __ADIZ__ARGV_VAL_H__
+#pragma once
 
 #include <stdint.h>
 #include <stddef.h>
+
+enum
+{
+	//  !! argv_val_get_typestr() should be in 
+	//  sync with below !!
+
+	//  arg type - data type
+	ARGV_TYPE_INT16,
+	ARGV_TYPE_UINT16,
+
+	ARGV_TYPE_INT32,
+	ARGV_TYPE_UINT32,
+
+	ARGV_TYPE_INT64,
+	ARGV_TYPE_UINT64,
+
+	ARGV_TYPE_CHARP,
+
+	ARGV_TYPE_BOOL,
+
+	//  arg type - flags
+	ARGV_TYPE_FLAGS_ZERO = 0,
+	ARGV_TYPE_FLAGS_NUM_RANGE,
+	ARGV_TYPE_FLAGS_LIST,
+};
 
 union __argv_val
 {
@@ -79,5 +103,3 @@ struct __argv_val_uptr
 
 
 struct argv_spec_s;
-
-#endif /* argv val.h */

@@ -25,37 +25,84 @@
 #include <inttypes.h>
 
 #include "api/argv.h"
+#include "api/val.h"
 
+static char * argv_val_get_typestr(int type)
+{
+	//  NOTE : to be kept in sync with the corresponding
+	//  ARGV_TYPE_* enum's in api/parse.h
+	static char * type_str[] = {
+		"INT16",
+		"UINT16",
+		"INT32",
+		"UINT32",
+		"INT64",
+		"UINT64",
+		"CHARP",
+		"BOOL",
+	};
+
+	if( type < ARGV_TYPE_UINT16 || type > ARGV_TYPE_BOOL ) {
+		return "Unknown";
+	}
+
+	return type_str[type];
+}
 
 static int argv_val_seti(struct argv_spec_s *p_s, long long int val,
 						struct argv_error_s *p_e)
 {
-	if( p_s->type.data == ARGV_TYPE_INT16 ) {
-		if( val < INT16_MIN || val > INT16_MAX ) {
-			snprintf(p_e->errmsg, ARGV_MAX_ERRMSG_LEN,
-						"value %lld out of range for INT16", val);
-			return EINVAL;
+	long long int vStart = 0, vEnd = 0;
+
+	//  handle : list / range / type-based
+	if( p_s->type.flags == ARGV_TYPE_FLAGS_LIST ) {
+		//  handle the given list
+		return EINVAL;
+	}
+
+	//  handle : given-range / type-based-range
+	//  .  get the allowed ranges
+	//  .  get the type string
+	if( p_s->type.flags == ARGV_TYPE_FLAGS_NUM_RANGE ) {
+		vStart = p_s->spec.range.i.start;
+		vEnd = p_s->spec.range.i.end;
+
+	} else if( p_s->type.flags == ARGV_TYPE_FLAGS_ZERO ) {
+		switch( p_s->type.data )
+		{
+			case ARGV_TYPE_INT16:
+				vStart = INT16_MIN;
+				vEnd = INT16_MAX;
+				break;
+			case ARGV_TYPE_INT32:
+				vStart = INT32_MIN;
+				vEnd = INT32_MAX;
+				break;
+			case ARGV_TYPE_INT64:
+				vStart = INT64_MIN;
+				vEnd = INT64_MAX;
+				break;
 		}
+	}
+
+	//  validate the range
+	if( val < vStart || val > vEnd ) {
+		snprintf(p_e->errmsg, ARGV_MAX_ERRMSG_LEN,
+			"value %lld out of range (%lld-%lld) for %s", 
+			val, vStart, vEnd, argv_val_get_typestr(p_s->type.data));
+		return EINVAL;
+	}
+
+	//  update *uptr and val
+	if( p_s->type.data == ARGV_TYPE_INT16 ) {
 		p_s->val.int16 = val;
 		*p_s->uptr.p.p_int16 = val;
 
 	} else if( p_s->type.data == ARGV_TYPE_INT32 ) {
-		//  check if val in range
-		if( val < INT32_MIN || val > INT32_MAX ) {
-			snprintf(p_e->errmsg, ARGV_MAX_ERRMSG_LEN,
-						"value %lld out of range for INT32", val);
-			return EINVAL;
-		}
 		p_s->val.int32 = val;
 		*p_s->uptr.p.p_int32 = val;
 
 	} else if( p_s->type.data == ARGV_TYPE_INT64 ) {
-		//  check if val in range
-		if( val < INT64_MIN || val > INT64_MAX ) {
-			snprintf(p_e->errmsg, ARGV_MAX_ERRMSG_LEN,
-						"value %lld out of range for INT64", val);
-			return EINVAL;
-		}
 		p_s->val.int64 = val;
 		*p_s->uptr.p.p_int64 = val;
 	}
@@ -66,35 +113,57 @@ static int argv_val_seti(struct argv_spec_s *p_s, long long int val,
 static int argv_val_setu(struct argv_spec_s *p_s, unsigned long long int val,
 						struct argv_error_s *p_e)
 {
-	if( p_s->type.data == ARGV_TYPE_UINT16 ) {
-		if( val > UINT16_MAX ) {
-			snprintf(p_e->errmsg, ARGV_MAX_ERRMSG_LEN,
-						"value %lld out of range for UINT16", val);
-			return EINVAL;
+	unsigned long long int vStart, vEnd;
+
+	//  handle : list / range / type-based
+	if( p_s->type.flags == ARGV_TYPE_FLAGS_LIST ) {
+		//  handle the given list
+		return EINVAL;
+	}
+
+	//  handle : given-range / type-based-range
+	//  .  get the allowed ranges
+	//  .  get the type string
+	if( p_s->type.flags == ARGV_TYPE_FLAGS_NUM_RANGE ) {
+		vStart = p_s->spec.range.u.start;
+		vEnd = p_s->spec.range.u.end;
+
+	} else if( p_s->type.flags == ARGV_TYPE_FLAGS_ZERO ) {
+		vStart = 0;
+		switch( p_s->type.data )
+		{
+			case ARGV_TYPE_UINT16:
+				vEnd = UINT16_MAX;
+				break;
+			case ARGV_TYPE_UINT32:
+				vEnd = UINT32_MAX;
+				break;
+			case ARGV_TYPE_UINT64:
+				vEnd = UINT64_MAX;
+				break;
 		}
+	}
+
+	//  validate the range
+	if( val < vStart || val > vEnd ) {
+		snprintf(p_e->errmsg, ARGV_MAX_ERRMSG_LEN,
+			"value %lld out of range (%llu-%llu) for %s", 
+			val, vStart, vEnd, argv_val_get_typestr(p_s->type.data));
+		return EINVAL;
+	}
+
+	//  update user given pointer and val
+	if( p_s->type.data == ARGV_TYPE_UINT16 ) {
 		p_s->val.uint16 = val;
-		*p_s->uptr.p.p_int16 = val;
+		*p_s->uptr.p.p_uint16 = val;
 
 	} else if( p_s->type.data == ARGV_TYPE_UINT32 ) {
-		//  check if val in range
-		if( val > UINT32_MAX ) {
-			snprintf(p_e->errmsg, ARGV_MAX_ERRMSG_LEN,
-						"value %lld out of range for UINT32", val);
-			return EINVAL;
-		}
 		p_s->val.uint32 = val;
-		*p_s->uptr.p.p_int32 = val;
+		*p_s->uptr.p.p_uint32 = val;
 
 	} else if( p_s->type.data == ARGV_TYPE_UINT64 ) {
-		//  check if val in range
-		if( val > UINT64_MAX ) {
-			snprintf(p_e->errmsg, ARGV_MAX_ERRMSG_LEN,
-						"value %lld out of range for UINT64", val);
-			return EINVAL;
-		}
 		p_s->val.uint64 = val;
-		*p_s->uptr.p.p_int64 = val;
-
+		*p_s->uptr.p.p_uint64 = val;
 	}
 
 	return 0;

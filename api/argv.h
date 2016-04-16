@@ -18,8 +18,7 @@
    02111-1307 USA.
 */
 
-#ifndef __ADIZ__ARGV_H__
-#define __ADIZ__ARGV_H__
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -33,5 +32,3 @@ extern "C" {
 #ifdef __cplusplus
 };
 #endif
-
-#endif /* argv.h */

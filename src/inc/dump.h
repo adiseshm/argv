@@ -19,11 +19,8 @@
    02111-1307 USA.
 */
 
-#ifndef __ARGV_DUMP_H__
-#define __ARGV_DUMP_H__
+#pragma once
 
 #include "api/argv.h"
 
 extern void argv_dump_specs(struct argv_spec_s *p_s, int num_spec);
-
-#endif

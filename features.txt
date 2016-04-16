@@ -10,7 +10,7 @@ Features
 Future
 ======
 1. autoconf/automake based Makefile
-2. Range, List support
+2. List support
 3. Multiple occurence of an option
 4. Coding style
 5. doxygen style comments

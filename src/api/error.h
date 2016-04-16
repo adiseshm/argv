@@ -18,13 +18,10 @@
    02111-1307 USA.
 */
 
-#ifndef __ADIZ__ARGV_ERROR_H__
-#define __ADIZ__ARGV_ERROR_H__
+#pragma once
 
 struct argv_error_s
 {
 	#define ARGV_MAX_ERRMSG_LEN 256
 	char errmsg[ARGV_MAX_ERRMSG_LEN];
 };
-
-#endif /* argv error.h */
