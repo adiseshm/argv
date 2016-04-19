@@ -75,10 +75,10 @@ struct argv_spec_s
 		union {
 			struct {
 				uint64_t nums[ARGV_MAX_LIST];
-			} unum;
+			} u;
 			struct {
 				int64_t nums[ARGV_MAX_LIST];
-			} snum;
+			} i;
 			struct {
 				char * strings[ARGV_MAX_LIST];
 			} string;

@@ -34,6 +34,8 @@ struct t1_args_s
 	uint64_t uint64;
 	int32_t int32r;
 	uint16_t uint16r;
+	uint16_t uint16l;
+	int32_t int32l;
 };
 
 enum
@@ -44,6 +46,8 @@ enum
 	ARG_UINT64  = 40,
 	ARG_INT32R  = 50,
 	ARG_UINT16R = 60,
+	ARG_UINT16L = 70,
+	ARG_INT32L  = 80,
 };
 
 struct argv_spec_s arg_spec[] =
@@ -112,7 +116,7 @@ struct argv_spec_s arg_spec[] =
  .spec.range.i.start = 22,
  .spec.range.i.end = 33,
  .type.multiples = 1,
- .defval.int32 = 32,
+ .defval.int32 = 77,
  .uptr.ARGV_VAL_UPTR_INT32(struct t1_args_s, int32r)
 },
 
@@ -127,8 +131,36 @@ struct argv_spec_s arg_spec[] =
  .spec.range.i.start = 44,
  .spec.range.i.end = 55,
  .type.multiples = 1,
- .defval.uint16 = 32,
+ .defval.uint16 = 77,
  .uptr.ARGV_VAL_UPTR_UINT16(struct t1_args_s, uint16r)
+},
+
+/* uint16-list */
+{.id = ARG_UINT16L,
+ .name_long = "uint16l",
+ .name_val = 'u',
+ .help_arg = "uint16l",
+ .help = "uint16 list 1,3,5,7,11,13,17,19",
+ .type.data  = ARGV_TYPE_UINT16,
+ .type.flags = ARGV_TYPE_FLAGS_LIST,
+ .spec.list.u.nums = {1, 3, 5, 7, 11, 13, 17, 19},
+ .type.multiples = 1,
+ .defval.uint16 = 19,
+ .uptr.ARGV_VAL_UPTR_UINT16(struct t1_args_s, uint16l)
+},
+
+/* int32-list */
+{.id = ARG_INT32L,
+ .name_long = "int32l",
+ .name_val = 'l',
+ .help_arg = "int32l",
+ .help = "int32 list -1, 200, 400, -1000, -300000",
+ .type.data  = ARGV_TYPE_INT32,
+ .type.flags = ARGV_TYPE_FLAGS_LIST,
+ .spec.list.i.nums = {-1, 200, 400, -1000, -300000},
+ .type.multiples = 1,
+ .defval.int32 = -1000,
+ .uptr.ARGV_VAL_UPTR_INT32(struct t1_args_s, int32l)
 },
 
 /* last zero entry */
@@ -166,10 +198,10 @@ struct argv_synopsis_s synopsis[] =
 
 	/* t1 : synopsis */
 	{
-		.name   = "cmd-int32r",
+		.name   = "cmd-int32r/u16l/32l",
 		.cmd    = CMD_INT32R,
 		.ids_m  = (int []) { ARG_INT32R, ARG_LAST },
-		.ids_o  = (int []) { ARG_UINT16R, ARG_LAST },
+		.ids_o  = (int []) { ARG_UINT16R, ARG_UINT16L, ARG_INT32L, ARG_LAST },
 	},
 
 	/* last zero entry */
