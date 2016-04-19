@@ -23,6 +23,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <inttypes.h>
+#include <string.h>
 
 #include "api/argv.h"
 #include "api/val.h"
@@ -194,8 +195,25 @@ static int argv_val_setu(struct argv_spec_s *p_s, unsigned long long int val,
 	return 0;
 }
 
-static int argv_val_setcharp(struct argv_spec_s *p_s, char *p_val)
+static int argv_val_setcharp(struct argv_spec_s *p_s, char *p_val, struct argv_error_s *p_e)
 {
+	if( p_s->type.flags == ARGV_TYPE_FLAGS_LIST ) {
+		int i, found = 0;
+
+		//  handle : list
+		for(i=0; i<ARGV_MAX_LIST && p_s->spec.list.s.strings[i]; i++) {
+			if( strcmp(p_s->spec.list.s.strings[i], p_val) == 0 ) {
+				found = 1;
+				break;
+			}
+		}
+		if( 0 == found ) {
+			snprintf(p_e->errmsg, ARGV_MAX_ERRMSG_LEN,
+				"option %s, value %s not in the given list of %s",
+				p_s->name_long, p_val, argv_val_get_typestr(p_s->type.data));
+			return EINVAL;
+		}
+	}
 	p_s->val.charp  = p_val;
 	*p_s->uptr.p.p_charp = p_val;
 
@@ -222,7 +240,7 @@ int argv_val_set_default(struct argv_spec_s *p_s, struct argv_error_s *p_e)
 			break;
 
 		case ARGV_TYPE_CHARP:
-			r = argv_val_setcharp(p_s, p_s->defval.charp);
+			r = argv_val_setcharp(p_s, p_s->defval.charp, p_e);
 			break;
 
 		case ARGV_TYPE_INT16:
@@ -354,7 +372,7 @@ int argv_val_process(struct argv_spec_s *p, char *optarg, struct argv_error_s *p
 	}
 
 	else if( p->type.data == ARGV_TYPE_CHARP ) {
-		r = argv_val_setcharp(p, p->arg);
+		r = argv_val_setcharp(p, p->arg, p_e);
 	}
 
 	else if( p->type.data == ARGV_TYPE_INT16 || 

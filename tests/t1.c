@@ -36,6 +36,7 @@ struct t1_args_s
 	uint16_t uint16r;
 	uint16_t uint16l;
 	int32_t int32l;
+	char * charpl;
 };
 
 enum
@@ -48,6 +49,7 @@ enum
 	ARG_UINT16R = 60,
 	ARG_UINT16L = 70,
 	ARG_INT32L  = 80,
+	ARG_CHARPL  = 90,
 };
 
 struct argv_spec_s arg_spec[] =
@@ -163,6 +165,20 @@ struct argv_spec_s arg_spec[] =
  .uptr.ARGV_VAL_UPTR_INT32(struct t1_args_s, int32l)
 },
 
+/* charp-list */
+{.id = ARG_CHARPL,
+ .name_long = "charpl",
+ .name_val = 'c',
+ .help_arg = "charpl",
+ .help = "charp list hello world whoa",
+ .type.data  = ARGV_TYPE_CHARP,
+ .type.flags = ARGV_TYPE_FLAGS_LIST,
+ .spec.list.s.strings = {"hello", "world", "whoa", NULL },
+ .type.multiples = 1,
+ .defval.charp = "whoa",
+ .uptr.ARGV_VAL_UPTR_CHARP(struct t1_args_s, charpl)
+},
+
 /* last zero entry */
 {
  .name_long = 0,
@@ -201,7 +217,7 @@ struct argv_synopsis_s synopsis[] =
 		.name   = "cmd-int32r/u16l/32l",
 		.cmd    = CMD_INT32R,
 		.ids_m  = (int []) { ARG_INT32R, ARG_LAST },
-		.ids_o  = (int []) { ARG_UINT16R, ARG_UINT16L, ARG_INT32L, ARG_LAST },
+		.ids_o  = (int []) { ARG_UINT16R, ARG_UINT16L, ARG_INT32L, ARG_CHARPL, ARG_LAST },
 	},
 
 	/* last zero entry */
@@ -235,6 +251,7 @@ static void info_dump(int argc, char **argv, int non_option_start,
 	printf("\toffset %d\n", p_args->offset);
 	printf("\tqwerty %d\n", p_args->qwerty);
 	printf("\tuint64 %" PRIu64 "\n", p_args->uint64);
+	printf("\tcharpl %s\n", p_args->charpl);
 
 	//  dump the argv-specs
 	argv_dump_specs(p_spec, num_spec);

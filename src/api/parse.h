@@ -81,7 +81,7 @@ struct argv_spec_s
 			} i;
 			struct {
 				char * strings[ARGV_MAX_LIST];
-			} string;
+			} s;
 		} list;
 	} spec;
 
