@@ -101,8 +101,8 @@ static int argv_val_seti(struct argv_spec_s *p_s, long long int val,
 		//  validate the range
 		if( val < vStart || val > vEnd ) {
 			snprintf(p_e->errmsg, ARGV_MAX_ERRMSG_LEN,
-				"value %lld out of range (%lld-%lld) for %s", 
-				val, vStart, vEnd, argv_val_get_typestr(p_s->type.data));
+				"option %s, value %lld out of range (%lld-%lld) for %s", 
+				p_s->name_long, val, vStart, vEnd, argv_val_get_typestr(p_s->type.data));
 			return EINVAL;
 		}
 	}

@@ -2,18 +2,18 @@
 
 Features
 ========
-1. APIs - argv_parse(), ARG_VAL_UPTR_*(), and struct argv_spec_s
+1. APIs - argv_parse(), ARG_SPEC_*(),
+          struct : argv_spec_s, argv_synopsis_s, and argv_error_s
 2. Specify range, list for args
 3. No optional arguments support
-4. Bubble up API includes
+4. Bubble up #includes for APIs
 
 Future
 ======
 1. autoconf/automake based Makefile
-2. List support
-3. Multiple occurence of an option
-4. Coding style
-5. doxygen style comments
-6. Support tonnes of option specs say like gcc
-7. I18N
-8. ? getopt_* features
+2. Multiple occurence of an option
+3. Coding style
+4. doxygen style comments
+5. Support tonnes of option specs say like gcc
+6. I18N
+7. ? getopt_* features

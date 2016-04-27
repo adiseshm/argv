@@ -61,11 +61,9 @@ struct argv_spec_s arg_spec[] =
  .name_val = 'f',
  .help_arg = "filename",
  .help = "name of the file",
- .type.data  = ARGV_TYPE_CHARP,
- .type.flags = ARGV_TYPE_FLAGS_ZERO,
+
  .type.multiples = 1,
- .defval.charp = "hello.argp",
- .uptr.ARGV_VAL_UPTR_CHARP(struct t1_args_s, file)
+ ARGV_SPEC_CHARP(ARGV_TYPE_FLAGS_ZERO, "hello.argp"/*defval*/, struct t1_args_s, file)
 },
 
 /* offset */
@@ -74,24 +72,20 @@ struct argv_spec_s arg_spec[] =
  .name_val = 'o',
  .help_arg = "offset",
  .help = "offset in the file",
- .type.data  = ARGV_TYPE_UINT32,
- .type.flags = ARGV_TYPE_FLAGS_ZERO,
+
  .type.multiples = 1,
- .defval.uint32 = 32,
- .uptr.ARGV_VAL_UPTR_UINT32(struct t1_args_s, offset)
+ ARGV_SPEC_UINT32(ARGV_TYPE_FLAGS_ZERO, 32/*defval*/, struct t1_args_s, offset)
 },
 
 /* qwerty */
 {.id = ARG_QWERTY,
  .name_long = "qwerty",
  .name_val = 'q',
- .help_arg = "uint16",
- .help = "qwerty uint16 option",
- .type.data  = ARGV_TYPE_INT16,
- .type.flags = ARGV_TYPE_FLAGS_ZERO,
+ .help_arg = "int16",
+ .help = "qwerty int16 option",
+
  .type.multiples = 16,
- .defval.int16 = 16,
- .uptr.ARGV_VAL_UPTR_INT16(struct t1_args_s, qwerty)
+ ARGV_SPEC_INT16(ARGV_TYPE_FLAGS_ZERO, 16/*defval*/, struct t1_args_s, qwerty)
 },
 
 /* uint64 */
@@ -100,11 +94,9 @@ struct argv_spec_s arg_spec[] =
  .name_val = '6',
  .help_arg = "uint64",
  .help = "random uint64 value",
- .type.data  = ARGV_TYPE_UINT64,
- .type.flags = ARGV_TYPE_FLAGS_ZERO,
+
  .type.multiples = 1,
- .defval.uint64 = 64,
- .uptr.ARGV_VAL_UPTR_UINT64(struct t1_args_s, uint64)
+ ARGV_SPEC_UINT64(ARGV_TYPE_FLAGS_ZERO, 64/*defval*/, struct t1_args_s, uint64)
 },
 
 /* uint32-range */
@@ -113,28 +105,24 @@ struct argv_spec_s arg_spec[] =
  .name_val = '2',
  .help_arg = "int32r",
  .help = "int32 value in 22-33 range",
- .type.data  = ARGV_TYPE_INT32,
- .type.flags = ARGV_TYPE_FLAGS_NUM_RANGE,
+
  .spec.range.i.start = 22,
  .spec.range.i.end = 33,
  .type.multiples = 1,
- .defval.int32 = 77,
- .uptr.ARGV_VAL_UPTR_INT32(struct t1_args_s, int32r)
+ ARGV_SPEC_INT32(ARGV_TYPE_FLAGS_NUM_RANGE, 77/*defval*/, struct t1_args_s, int32r)
 },
 
 /* uint16-range */
 {.id = ARG_UINT16R,
- .name_long = "int16r",
+ .name_long = "uint16r",
  .name_val = '1',
- .help_arg = "int16r",
- .help = "int16 value in 22-33 range",
- .type.data  = ARGV_TYPE_INT16,
- .type.flags = ARGV_TYPE_FLAGS_NUM_RANGE,
+ .help_arg = "uint16r",
+ .help = "uint16 value in 22-33 range",
+
  .spec.range.i.start = 44,
  .spec.range.i.end = 55,
  .type.multiples = 1,
- .defval.uint16 = 77,
- .uptr.ARGV_VAL_UPTR_UINT16(struct t1_args_s, uint16r)
+ ARGV_SPEC_UINT16(ARGV_TYPE_FLAGS_NUM_RANGE, 77/*defval*/, struct t1_args_s, uint16r)
 },
 
 /* uint16-list */
@@ -143,12 +131,10 @@ struct argv_spec_s arg_spec[] =
  .name_val = 'u',
  .help_arg = "uint16l",
  .help = "uint16 list 1,3,5,7,11,13,17,19",
- .type.data  = ARGV_TYPE_UINT16,
- .type.flags = ARGV_TYPE_FLAGS_LIST,
+
  .spec.list.u.nums = {1, 3, 5, 7, 11, 13, 17, 19},
  .type.multiples = 1,
- .defval.uint16 = 19,
- .uptr.ARGV_VAL_UPTR_UINT16(struct t1_args_s, uint16l)
+ ARGV_SPEC_UINT16(ARGV_TYPE_FLAGS_LIST, 19/*defval*/, struct t1_args_s, uint16l)
 },
 
 /* int32-list */
@@ -157,12 +143,10 @@ struct argv_spec_s arg_spec[] =
  .name_val = 'l',
  .help_arg = "int32l",
  .help = "int32 list -1, 200, 400, -1000, -300000",
- .type.data  = ARGV_TYPE_INT32,
- .type.flags = ARGV_TYPE_FLAGS_LIST,
+
  .spec.list.i.nums = {-1, 200, 400, -1000, -300000},
  .type.multiples = 1,
- .defval.int32 = -1000,
- .uptr.ARGV_VAL_UPTR_INT32(struct t1_args_s, int32l)
+ ARGV_SPEC_INT32(ARGV_TYPE_FLAGS_LIST, -1000/*defval*/, struct t1_args_s, int32l)
 },
 
 /* charp-list */
@@ -171,12 +155,10 @@ struct argv_spec_s arg_spec[] =
  .name_val = 'c',
  .help_arg = "charpl",
  .help = "charp list hello world whoa",
- .type.data  = ARGV_TYPE_CHARP,
- .type.flags = ARGV_TYPE_FLAGS_LIST,
+
  .spec.list.s.strings = {"hello", "world", "whoa", NULL },
  .type.multiples = 1,
- .defval.charp = "whoa",
- .uptr.ARGV_VAL_UPTR_CHARP(struct t1_args_s, charpl)
+ ARGV_SPEC_CHARP(ARGV_TYPE_FLAGS_LIST, "whoa"/*defval*/, struct t1_args_s, charpl)
 },
 
 /* last zero entry */

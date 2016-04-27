@@ -44,6 +44,54 @@ struct argv_spec_s
 	char *help_arg;
 	char *help;
 
+#define ARGV_SPEC_CHARP(__flags, __defval, __struct, __field) \
+		.type.data = ARGV_TYPE_CHARP, \
+		.type.flags = __flags, \
+		.defval.charp = __defval, \
+		.uptr.ARGV_VAL_UPTR_CHARP(__struct, __field),
+
+#define ARGV_SPEC_BOOL(__flags, __defval, __struct, __field) \
+		.type.data = ARGV_TYPE_BOOL, \
+		.type.flags = __flags, \
+		.defval.bool = __defval, \
+		.uptr.ARGV_VAL_UPTR_BOOL(__struct, __field),
+	
+#define ARGV_SPEC_INT16(__flags, __defval, __struct, __field) \
+		.type.data = ARGV_TYPE_INT16, \
+		.type.flags = __flags, \
+		.defval.int16 = __defval, \
+		.uptr.ARGV_VAL_UPTR_INT16(__struct, __field),
+
+#define ARGV_SPEC_UINT16(__flags, __defval, __struct, __field) \
+		.type.data = ARGV_TYPE_UINT16, \
+		.type.flags = __flags, \
+		.defval.uint16 = __defval, \
+		.uptr.ARGV_VAL_UPTR_UINT16(__struct, __field),
+
+#define ARGV_SPEC_INT32(__flags, __defval, __struct, __field) \
+		.type.data = ARGV_TYPE_INT32, \
+		.type.flags = __flags, \
+		.defval.int32 = __defval, \
+		.uptr.ARGV_VAL_UPTR_INT32(__struct, __field),
+
+#define ARGV_SPEC_UINT32(__flags, __defval, __struct, __field) \
+		.type.data = ARGV_TYPE_UINT32, \
+		.type.flags = __flags, \
+		.defval.uint32 = __defval, \
+		.uptr.ARGV_VAL_UPTR_UINT32(__struct, __field),
+
+#define ARGV_SPEC_INT64(__flags, __defval, __struct, __field) \
+		.type.data = ARGV_TYPE_INT64, \
+		.type.flags = __flags, \
+		.defval.int64 = __defval, \
+		.uptr.ARGV_VAL_UPTR_INT64(__struct, __field),
+
+#define ARGV_SPEC_UINT64(__flags, __defval, __struct, __field) \
+		.type.data = ARGV_TYPE_UINT64, \
+		.type.flags = __flags, \
+		.defval.uint64 = __defval, \
+		.uptr.ARGV_VAL_UPTR_UINT64(__struct, __field),
+
 	/* type */
 	struct {
 		/* ARGV_TYPE_* */
