@@ -1,10 +1,8 @@
 ## Build
 
-cd src; make  
-cd ..  
-cd tests; make  
-
-LD\_LIBRARY\_PATH=../src  ./t1  --file myfile --offset 123456
+./configure
+make
+make install
 
 ## API
 
