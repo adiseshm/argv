@@ -43,9 +43,9 @@ struct argv_spec_s * argv_spec_find_by_id(int num_spec, struct argv_spec_s *p_s,
 }
 
 int argv_usage(FILE *fp, char *progname,
-						struct argv_synopsis_s *p_synopsis,
-						struct argv_spec_s *p_s,
-						struct argv_error_s *p_e)
+			struct argv_spec_s *p_s,
+			struct argv_synopsis_s *p_synopsis,
+			struct argv_error_s *p_e)
 {
 	int i, synop_idx, num_spec;
 
@@ -173,7 +173,7 @@ int argv_synopsis_match(struct argv_synopsis_s *p_synopsis, int num_spec,
 int argv_parse(IN int argc, INOUT char **argv, 
 				IN struct argv_spec_s *p_s,
 				IN struct argv_synopsis_s *p_synopsis,
-				IN void *p_uptr,
+				IN void *p_user_struct,
 				OUT int *p_non_option_start,
 				OUT int *p_synop_idx,
 				OUT struct argv_error_s *p_e)
@@ -225,7 +225,7 @@ int argv_parse(IN int argc, INOUT char **argv,
 		p_s[i].num_occurences = 0;
 		p_s[i].arg = 0;
 
-		p_s[i].uptr.p.p_void = p_uptr + p_s[i].uptr.offset_in_uptr;
+		p_s[i].uptr.p.p_void = p_user_struct + p_s[i].uptr.offset_in_uptr;
 
 		//  set the default value
 		(void)argv_val_set_default(&p_s[i], p_e);

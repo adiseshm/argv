@@ -23,4 +23,4 @@
 
 #include "api/argv.h"
 
-extern void argv_dump_specs(struct argv_spec_s *p_s, int num_spec);
+extern void argv_dump_specs(struct argv_spec_s *p_s);

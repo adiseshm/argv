@@ -27,13 +27,14 @@
 #include "api/argv.h"
 #include "inc/val.h"
 
-void argv_dump_specs(struct argv_spec_s *p_s, int num_spec)
+void argv_dump_specs(struct argv_spec_s *p_s)
 {
 	int i;
 
 	printf("ARG-SPECS\n");
 	printf("\t%-3s    %-3s    %-12s    %-15s    %s\n", "No", "Id", "Type", "Name", "CliArg");
-	for(i=0; i<num_spec; i++) {
+
+	for(i=0; p_s[i].name_long; i++) {
 		printf("\t%-3d    %-3d    %-6s-%d-%-3d    %-15s    %s\n",
 				i,
 				p_s[i].id,

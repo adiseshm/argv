@@ -150,14 +150,14 @@ struct argv_spec_s
 
 struct argv_synopsis_s;
 extern int argv_parse(IN int argc, INOUT char **argv,
-						IN struct argv_spec_s *p_s,
+						IN struct argv_spec_s *p_argv_spec,
 						IN struct argv_synopsis_s *p_synopsis,
-						IN void *p_uptr,
+						IN void *p_user_struct,
 						OUT int *p_non_option_start,
 						OUT int *p_synop_idx,
 						OUT struct argv_error_s *p_e);
 
-extern int argv_usage(FILE *fp, char *progname,
-						struct argv_synopsis_s *p_synopsis,
-						struct argv_spec_s *p_s,
-						struct argv_error_s *p_e);
+extern int argv_usage(IN FILE *fp, IN char *progname,
+				IN struct argv_spec_s *p_argv_spec,
+				IN struct argv_synopsis_s *p_synopsis,
+				OUT struct argv_error_s *p_e);

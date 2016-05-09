@@ -72,7 +72,7 @@ static void info_dump(int argc, char **argv, int non_option_start,
 	printf("\tcharpl %s\n", p_args->charpl);
 
 	//  dump the argv-specs
-	argv_dump_specs(p_spec, num_spec);
+	argv_dump_specs(p_spec);
 
 	return;
 }
@@ -89,7 +89,7 @@ int main(int argc, char **argv)
 	if( r ) {
 		fprintf(stderr, "argv_parse(): %s. %s(rc=%d)\n",
 				e.errmsg, strerror(r), r);
-		argv_usage(stderr, argv[0], synopsis, arg_spec, &e);
+		argv_usage(stderr, argv[0], arg_spec, synopsis, &e);
 	} else {
 		info_dump(argc, argv, non_option_start, &args, num_spec, arg_spec,
 					synop_idx, synopsis);

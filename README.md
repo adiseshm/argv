@@ -48,8 +48,8 @@ tests/t1.c has an example of the above
 * argv\_usage Auto-generate the usage from the given specifications  
     * fp                     IN FILE pointer, where the usageinfo should be written to  
     * progname               IN The program name, which should be used as the prefix  
-    * p\_argv\_synopsis      IN Array of synopsis specifications  
     * p\_argv\_spec          IN Array of argument specifications  
+    * p\_argv\_synopsis      IN Array of synopsis specifications  
     * p\_e                   OUT Returns the detailed error message, if any  
 * struct argv\_spec\_s    Struct specifying the details an argument  
     * id  
